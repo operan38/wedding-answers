@@ -54,7 +54,7 @@ body {
 .answer {
   font-family: "Bad Script", cursive;
   font-weight: 400;
-  font-size: 40px;
+  font-size: 38px;
   font-style: normal;
   color: #fff;
   margin: 0 32px;
@@ -79,16 +79,20 @@ body {
   display: none;
   font-family: "Bad Script", cursive;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 20px;
   color: #fff;
   text-align: center;
-  margin: 24px auto;
+  margin: 12px auto;
   user-select: none;
 }
 
 .readme p {
   margin-top: 2px;
   margin-bottom: 2px;
+}
+
+.readme span {
+  text-decoration: underline;
 }
 
 .right {
