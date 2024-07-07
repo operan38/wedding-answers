@@ -78,6 +78,7 @@ body {
   color: #fff;
   margin: 0 32px;
   user-select: none;
+  text-align: center;
 }
 
 .answer:hover {
