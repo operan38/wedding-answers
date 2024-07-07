@@ -1,8 +1,13 @@
 body {
   background: linear-gradient(to right, #3fd2fe 0%, #2f8af2 100%);
+  position: relative;
 }
 
-.section {
+.blur {
+  filter: blur(8px);
+}
+
+.answer-section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,11 +18,47 @@ body {
   left: 0;
 }
 
+.arrow-section {
+  position: fixed;
+  bottom: 120px;
+}
+
 .answer {
   font-family: "Bad Script", cursive;
   font-weight: 400;
   font-size: 40px;
   font-style: normal;
   color: #fff;
-  margin: 0px 32px;
+  margin: 0 32px;
+}
+
+.right {
+  transform: rotate(45deg);
+  right: 40px;
+}
+
+.right:hover {
+  border-top: 5px solid #3fd2fe;
+  border-right: 5px solid #3fd2fe;
+  cursor: pointer;
+}
+
+.left {
+  transform: rotate(-135deg);
+  left: 40px;
+}
+
+.left:hover {
+  border-top: 5px solid #2f8af2;
+  border-right: 5px solid #2f8af2;
+  cursor: pointer;
+}
+
+.arrow {
+  position: fixed;
+  transition: border 0.2s ease-out;
+  width: 50px;
+  height: 50px;
+  border-top: 5px solid #fff;
+  border-right: 5px solid #fff;
 }
