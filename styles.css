@@ -1,6 +1,25 @@
 body {
-  background: linear-gradient(to right, #3fd2fe 0%, #2f8af2 100%);
   position: relative;
+}
+
+.blueBg {
+  background: linear-gradient(to right, #3fd2fe 0%, #2f8af2 100%);
+}
+
+.yellowBg {
+  background: linear-gradient(to right, #FFD700 0%, #9B9138 100%);
+}
+
+.greenBg {
+  background: linear-gradient(to right, #7CFC00 0%, #46762C 100%);
+}
+
+.redBg {
+  background: linear-gradient(to right, #F08080 0%, #9A4E58 100%);
+}
+
+.orangeBg {
+  background: linear-gradient(to right, #FFA500 0%, #CD692E 100%);
 }
 
 .blur {
@@ -100,28 +119,21 @@ body {
   right: 40px;
 }
 
-.right:hover {
-  border-top: 5px solid #3fd2fe;
-  border-right: 5px solid #3fd2fe;
-  cursor: pointer;
-}
-
 .left {
   transform: rotate(-135deg);
   left: 40px;
 }
 
-.left:hover {
-  border-top: 5px solid #2f8af2;
-  border-right: 5px solid #2f8af2;
-  cursor: pointer;
-}
-
 .arrow {
   position: fixed;
-  transition: border 0.2s ease-out;
+  transition: opacity 0.2s ease-out;
   width: 32px;
   height: 32px;
   border-top: 5px solid #fff;
   border-right: 5px solid #fff;
+}
+
+.arrow:hover {
+  cursor: pointer;
+  opacity: 0.5;
 }

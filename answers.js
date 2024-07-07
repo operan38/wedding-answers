@@ -1,4 +1,9 @@
-const QUEST_KEY = 'q';
+const QUEST_KEY = "q";
+const BLUE = "blue";
+const YELLOW = "yellow";
+const GREEN = "green";
+const RED = "red";
+const ORANGE = "orange";
 
 const url = new URL(window.location.href);
 const urlParams = new URLSearchParams(url.search);
@@ -9,9 +14,11 @@ const $prev = document.getElementById("prev");
 const $readme = document.getElementById("readme");
 
 const questions = [
-  {trueAnswer: "Истинный ответ 1", isJoke: true, jokeAnswer: "Шуточный ответ 1"},
-  {trueAnswer: "Истинный ответ 2", isJoke: false},
-  {trueAnswer: "Истинный ответ 3", isJoke: false}
+  { trueAnswer: "Истинный ответ 1", isJoke: true, jokeAnswer: "Шуточный ответ 1", color: BLUE },
+  { trueAnswer: "Истинный ответ 2", isJoke: false, color: YELLOW },
+  { trueAnswer: "Истинный ответ 3", isJoke: false, color: GREEN },
+  { trueAnswer: "Истинный ответ 4", isJoke: false, color: RED },
+  { trueAnswer: "Истинный ответ 5", isJoke: false, color: ORANGE }
 ];
 
 let isBlur = false;
@@ -71,14 +78,20 @@ function removeBlur() {
 
 function showReadme() {
   isReadme = true;
-  $readme.style.display = 'block';
+  $readme.style.display = "block";
   $readme.classList.add("fadeIn");
 }
 
 function hideReadme() {
   isReadme = false;
-  $readme.style.display = 'none';
+  $readme.style.display = "none";
   $readme.classList.remove("fadeIn");
+}
+
+function toggleColor(num) {
+  const body = document.querySelector("body");
+  body.className = "";
+  body.classList.add(`${questions[num - 1].color}Bg`);
 }
 
 function update() {
@@ -90,19 +103,20 @@ function update() {
     document.title = txt;
     $answer.innerHTML = txt;
     removeBlur();
+    toggleColor(1);
     return;
   }
   else if (questNumber <= 1) {
-    $prev.style.display = 'none';
-    $next.style.display = 'block';
+    $prev.style.display = "none";
+    $next.style.display = "block";
   }
   else if (questNumber >= questions.length) {
-    $prev.style.display = 'block';
-    $next.style.display = 'none';
+    $prev.style.display = "block";
+    $next.style.display = "none";
   }
   else {
-    $prev.style.display = 'block';
-    $next.style.display = 'block';
+    $prev.style.display = "block";
+    $next.style.display = "block";
   }
 
   if (questNumber <= 1) showReadme();
@@ -114,13 +128,15 @@ function update() {
   $questNumber.innerHTML = `Ответ на вопрос № ${questNumber}`;
 
   $answer.innerHTML = `${questions[questNumber - 1].trueAnswer}`;
+  toggleColor(questNumber);
 }
 
 window.onload = function() {
   $questNumber.classList.add("fadeIn");
-  update();
 
   $next.addEventListener("click", next);
   $prev.addEventListener("click", prev);
   $answer.addEventListener("click", removeBlur);
+
+  update();
 }
