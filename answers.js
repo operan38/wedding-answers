@@ -6,8 +6,16 @@ const $answer = document.getElementById("answer");
 const $questNumber = document.getElementById("quest-number");
 const $next = document.getElementById("next");
 const $prev = document.getElementById("prev");
+const $readme = document.getElementById("readme");
+
+const questions = [
+  {trueAnswer: "Истинный ответ 1", isJoke: true, jokeAnswer: "Шуточный ответ 1"},
+  {trueAnswer: "Истинный ответ 2", isJoke: false},
+  {trueAnswer: "Истинный ответ 3", isJoke: false}
+];
 
 let isBlur = false;
+let isReadme = false;
 
 window.history.pushState = new Proxy(window.history.pushState, {
   apply: (target, thisArg, argArray) => {
@@ -32,16 +40,16 @@ function isNumberUncorrect(num) {
 }
 
 function next() {
-  console.log('next');
   $questNumber.classList.remove("fadeIn");
   const questNumber = getQuestNumber();
-  if (isNumberUncorrect(questNumber)) return;
+  if (isNumberUncorrect(questNumber) || questNumber >= questions.length) return;
 
   setQuest(parseInt(questNumber) + 1);
+
+  if (isReadme) hideReadme();
 }
 
 function prev() {
-  console.log('prev');
   $questNumber.classList.remove("fadeIn");
   const questNumber = getQuestNumber();
   if (isNumberUncorrect(questNumber)) return;
@@ -61,11 +69,23 @@ function removeBlur() {
   $answer.classList.add("unblur");
 }
 
+function showReadme() {
+  isReadme = true;
+  $readme.style.display = 'block';
+  $readme.classList.add("fadeIn");
+}
+
+function hideReadme() {
+  isReadme = false;
+  $readme.style.display = 'none';
+  $readme.classList.remove("fadeIn");
+}
+
 function update() {
   addBlur();
   const questNumber = getQuestNumber();
 
-  if (isNumberUncorrect(questNumber)) {
+  if (isNumberUncorrect(questNumber) || questNumber > questions.length) {
     const txt = "Ответа на этот вопрос не существует :(";
     document.title = txt;
     $answer.innerHTML = txt;
@@ -74,17 +94,26 @@ function update() {
   }
   else if (questNumber <= 1) {
     $prev.style.display = 'none';
+    $next.style.display = 'block';
+  }
+  else if (questNumber >= questions.length) {
+    $prev.style.display = 'block';
+    $next.style.display = 'none';
   }
   else {
     $prev.style.display = 'block';
+    $next.style.display = 'block';
   }
+
+  if (questNumber <= 1) showReadme();
 
   setTimeout(() => {
     $questNumber.classList.add("fadeIn");
   }, 1);
 
-  $questNumber.innerHTML = `Вопрос № ${questNumber}`;
-  $answer.innerHTML = `Ответ на ${questNumber} вопрос`;
+  $questNumber.innerHTML = `Ответ на вопрос № ${questNumber}`;
+
+  $answer.innerHTML = `${questions[questNumber - 1].trueAnswer}`;
 }
 
 window.onload = function() {

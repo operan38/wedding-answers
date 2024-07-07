@@ -4,12 +4,12 @@ body {
 }
 
 .blur {
-  filter: blur(8px);
+  filter: blur(6px);
 }
 
 @keyframes unblur {
   from { 
-    filter: blur(8px); 
+    filter: blur(6px); 
   }
   to { 
     filter: blur(0); 
@@ -54,7 +54,7 @@ body {
 .answer {
   font-family: "Bad Script", cursive;
   font-weight: 400;
-  font-size: 42px;
+  font-size: 40px;
   font-style: normal;
   color: #fff;
   margin: 0 32px;
@@ -68,11 +68,27 @@ body {
 .quest-number {
   font-family: "Bad Script", cursive;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 28px;
   color: #fff;
   text-align: center;
   margin-top: 12px;
   user-select: none;
+}
+
+.readme {
+  display: none;
+  font-family: "Bad Script", cursive;
+  font-weight: 400;
+  font-size: 24px;
+  color: #fff;
+  text-align: center;
+  margin: 24px auto;
+  user-select: none;
+}
+
+.readme p {
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .right {
@@ -100,8 +116,8 @@ body {
 .arrow {
   position: fixed;
   transition: border 0.2s ease-out;
-  width: 50px;
-  height: 50px;
+  width: 32px;
+  height: 32px;
   border-top: 5px solid #fff;
   border-right: 5px solid #fff;
 }
