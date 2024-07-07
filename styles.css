@@ -7,6 +7,34 @@ body {
   filter: blur(8px);
 }
 
+@keyframes unblur {
+  from { 
+    filter: blur(8px); 
+  }
+  to { 
+    filter: blur(0); 
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.unblur {
+  animation-name: unblur;
+  animation-timing-function: linear;
+  animation-duration: 1.25s;
+}
+
+.fadeIn {
+  animation: fadeIn ease 1s;
+}
+
 .answer-section {
   display: flex;
   align-items: center;
@@ -20,16 +48,31 @@ body {
 
 .arrow-section {
   position: fixed;
-  bottom: 120px;
+  bottom: 100px;
 }
 
 .answer {
   font-family: "Bad Script", cursive;
   font-weight: 400;
-  font-size: 40px;
+  font-size: 50px;
   font-style: normal;
   color: #fff;
   margin: 0 32px;
+  user-select: none;
+}
+
+.answer:hover {
+  cursor: pointer;
+}
+
+.quest-number {
+  font-family: "Bad Script", cursive;
+  font-weight: 400;
+  font-size: 30px;
+  color: #fff;
+  text-align: center;
+  margin-top: 12px;
+  user-select: none;
 }
 
 .right {
