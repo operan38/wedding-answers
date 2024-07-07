@@ -6,9 +6,8 @@ const $prev = document.getElementById("prev");
 
 window.history.pushState = new Proxy(window.history.pushState, {
   apply: (target, thisArg, argArray) => {
-    update();
     let output = target.apply(thisArg, argArray);
-    console.log('output: ', output)
+    update();
     return output;
   },
 });
