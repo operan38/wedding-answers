@@ -5,6 +5,76 @@ const GREEN = "green";
 const RED = "red";
 const ORANGE = "orange";
 
+const questions = [
+  { answer: "апрель", isJoke: false, color: BLUE },
+  { answer: "6 лет", isJoke: false, color: BLUE },
+  { answer: "Санкт-Петербург", isJoke: false, color: BLUE },
+  { answer: "Санкт-Петербург", isJoke: false, color: BLUE },
+  { answer: "покупка квартиры", isJoke: false, color: BLUE },
+  { answer: "кровать", isJoke: false, color: BLUE },
+  { answer: "жених", isJoke: false, color: BLUE },
+  { answer: "карие", isJoke: false, color: BLUE },
+  { answer: "зелёные", isJoke: false, color: BLUE },
+  { answer: "запечённые ребрышки", isJoke: false, color: BLUE },
+  { answer: "ванная комната", isJoke: false, color: ORANGE },
+  { answer: "компьютерные игры", isJoke: false, color: ORANGE },
+  { answer: "боязнь высоты", isJoke: false, color: ORANGE },
+  { answer: "коробки", isJoke: false, color: ORANGE },
+  { answer: "компьютер жениха", isJoke: false, color: ORANGE },
+  { answer: "у жениха", isJoke: false, color: ORANGE },
+  { answer: "бананы", isJoke: false, color: ORANGE },
+  { answer: "солянка", isJoke: false, color: ORANGE },
+  { answer: "невеста", isJoke: true, color: ORANGE },
+  { answer: "зима", isJoke: false, color: ORANGE },
+  { answer: "Соня", isJoke: false, color: GREEN },
+  { answer: "программист", isJoke: false, color: GREEN },
+  { answer: "учитель начальных классов", isJoke: false, color: GREEN },
+  { answer: "суббота", isJoke: false, color: GREEN },
+  { answer: "Lada Granta", isJoke: false, color: GREEN },
+  { answer: "Niva", isJoke: true, color: GREEN },
+  { answer: "торт Наполеон", isJoke: false, color: GREEN },
+  { answer: "пельмени домашние", isJoke: false, color: GREEN },
+  { answer: "ящерица", isJoke: false, color: GREEN },
+  { answer: "ужасы", isJoke: false, color: GREEN },
+  { answer: "трамвай", isJoke: false, color: YELLOW },
+  { answer: "кеды", isJoke: false, color: YELLOW },
+  { answer: "рыбы", isJoke: false, color: YELLOW },
+  { answer: "рак", isJoke: false, color: YELLOW },
+  { answer: "4 этаж", isJoke: false, color: YELLOW },
+  { answer: "Спанч Боб", isJoke: false, color: YELLOW },
+  { answer: "невеста", isJoke: false, color: YELLOW },
+  { answer: "нуль", isJoke: false, color: YELLOW },
+  { answer: "дверь", isJoke: false, color: YELLOW },
+  { answer: "ночью", isJoke: false, color: YELLOW },
+  { answer: "никто", isJoke: false, color: RED },
+  { answer: "8.67 гр", isJoke: false, color: RED },
+  { answer: "с поиска визажиста", isJoke: false, color: RED },
+  { answer: "кольца", isJoke: false, color: RED },
+  { answer: "вместе", isJoke: false, color: RED },
+  { answer: "20 гостей", isJoke: false, color: RED },
+  { answer: "Елена", isJoke: false, color: RED },
+  { answer: "500 - 600 гр", isJoke: false, color: RED },
+  { answer: "больше 1 метра", isJoke: false, color: RED },
+  { answer: "42", isJoke: false, color: RED },
+  { answer: "у жениха", isJoke: false, color: BLUE },
+  { answer: "в кровати", isJoke: false, color: BLUE },
+  { answer: "после 23:00", isJoke: false, color: BLUE },
+  { answer: "жених", isJoke: false, color: BLUE },
+  { answer: "невеста", isJoke: false, color: BLUE },
+  { answer: "невеста", isJoke: false, color: BLUE },
+  { answer: "невеста", isJoke: false, color: BLUE },
+  { answer: "жених", isJoke: false, color: BLUE },
+  { answer: "жених", isJoke: false, color: BLUE },
+  { answer: "невеста", isJoke: false, color: BLUE },
+  { answer: "невеста", isJoke: false, color: ORANGE },
+  { answer: "из-за невесты", isJoke: false, color: ORANGE },
+  { answer: "Алексей", isJoke: false, color: ORANGE },
+  { answer: "3 года", isJoke: false, color: ORANGE },
+  { answer: "пока не разбудят коты", isJoke: false, color: ORANGE },
+  { answer: "шпрот", isJoke: false, color: ORANGE },
+  { answer: "3 подружки", isJoke: false, color: ORANGE },
+];
+
 const url = new URL(window.location.href);
 const urlParams = new URLSearchParams(url.search);
 const $answer = document.getElementById("answer");
@@ -13,14 +83,7 @@ const $next = document.getElementById("next");
 const $prev = document.getElementById("prev");
 const $readme = document.getElementById("readme");
 
-const questions = [
-  { trueAnswer: "Истинный ответ 1", isJoke: true, jokeAnswer: "Шуточный ответ 1", color: BLUE },
-  { trueAnswer: "Истинный ответ 2", isJoke: false, color: YELLOW },
-  { trueAnswer: "Истинный ответ 3", isJoke: false, color: GREEN },
-  { trueAnswer: "Истинный ответ 4", isJoke: false, color: RED },
-  { trueAnswer: "Истинный ответ 5", isJoke: false, color: ORANGE }
-];
-
+let jokeTimeout = null;
 let isBlur = false;
 let isReadme = false;
 
@@ -71,9 +134,18 @@ function addBlur() {
 }
 
 function removeBlur() {
+  const questNumber = getQuestNumber();
   isBlur = false;
   $answer.classList.remove("blur");
   $answer.classList.add("unblur");
+
+  if (isNumberUncorrect(questNumber)) return;
+
+  if (questions[questNumber - 1]?.isJoke) {
+    jokeTimeout = setTimeout(() => {
+      $answer.innerHTML = "Это шутка :) Настоящий ответ вы можете узнать у молодожёнов";
+    }, 2500);
+  }
 }
 
 function showReadme() {
@@ -96,6 +168,7 @@ function toggleColor(num) {
 
 function update() {
   addBlur();
+  clearTimeout(jokeTimeout);
   const questNumber = getQuestNumber();
 
   if (isNumberUncorrect(questNumber) || questNumber > questions.length) {
@@ -127,7 +200,7 @@ function update() {
 
   $questNumber.innerHTML = `Ответ на вопрос № ${questNumber}`;
 
-  $answer.innerHTML = `${questions[questNumber - 1].trueAnswer}`;
+  $answer.innerHTML = `${questions[questNumber - 1].answer}`;
   toggleColor(questNumber);
 }
 
