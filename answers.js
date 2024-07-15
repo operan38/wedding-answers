@@ -24,14 +24,14 @@ const questions = [
   { answer: "у жениха", isJoke: false, color: ORANGE },
   { answer: "бананы", isJoke: false, color: ORANGE },
   { answer: "солянка", isJoke: false, color: ORANGE },
-  { answer: "невеста", isJoke: true, color: ORANGE },
+  { answer: "жених", isJoke: true, color: ORANGE, answerJoke: "Попались! На самом деле это невеста" },
   { answer: "зима", isJoke: false, color: ORANGE },
   { answer: "Соня", isJoke: false, color: GREEN },
   { answer: "программист", isJoke: false, color: GREEN },
   { answer: "учитель начальных классов", isJoke: false, color: GREEN },
   { answer: "суббота", isJoke: false, color: GREEN },
   { answer: "Lada Granta", isJoke: false, color: GREEN },
-  { answer: "Niva", isJoke: true, color: GREEN },
+  { answer: "Niva", isJoke: true, color: GREEN, answerJoke: "Это шутка :) Жених сам не знает" },
   { answer: "торт Наполеон", isJoke: false, color: GREEN },
   { answer: "пельмени домашние", isJoke: false, color: GREEN },
   { answer: "ящерица", isJoke: false, color: GREEN },
@@ -62,7 +62,6 @@ const questions = [
   { answer: "жених", isJoke: false, color: BLUE },
   { answer: "невеста", isJoke: false, color: BLUE },
   { answer: "невеста", isJoke: false, color: BLUE },
-  { answer: "невеста", isJoke: false, color: BLUE },
   { answer: "жених", isJoke: false, color: BLUE },
   { answer: "жених", isJoke: false, color: BLUE },
   { answer: "невеста", isJoke: false, color: BLUE },
@@ -82,6 +81,8 @@ const $questNumber = document.getElementById("quest-number");
 const $next = document.getElementById("next");
 const $prev = document.getElementById("prev");
 const $readme = document.getElementById("readme");
+const $gameScreen = document.getElementById("game");
+const $endScreen = document.getElementById("end");
 
 let jokeTimeout = null;
 let isBlur = false;
@@ -101,20 +102,27 @@ function setQuest(num) {
   history.pushState({}, "", url);
 };
 
-function getQuestNumber() {
+function getQuestNumber() { // Получить номер вопроса
   return urlParams.get(QUEST_KEY);
 }
 
-function isNumberUncorrect(num) {
+function isNumberUncorrect(num) { // Если номер в url некорректный
   return num === "" || num === null || num === undefined ? true : false;
 }
 
 function next() {
   $questNumber.classList.remove("fadeIn");
   const questNumber = getQuestNumber();
-  if (isNumberUncorrect(questNumber) || questNumber >= questions.length) return;
 
-  setQuest(parseInt(questNumber) + 1);
+  if (isNumberUncorrect(questNumber)) return;
+  else if (questNumber >= questions.length) { // Конец вопросов
+    $endScreen.style.display = "flex";
+    $gameScreen.style.display = "none";
+    return;
+  }
+
+  const newQuestNumber = parseInt(questNumber) + 1;
+  setQuest(newQuestNumber);
 
   if (isReadme) hideReadme();
 }
@@ -124,7 +132,8 @@ function prev() {
   const questNumber = getQuestNumber();
   if (isNumberUncorrect(questNumber)) return;
 
-  setQuest(parseInt(questNumber) - 1);
+  const newQuestNumber = parseInt(questNumber) - 1;
+  setQuest(newQuestNumber);
 }
 
 function addBlur() {
@@ -138,13 +147,14 @@ function removeBlur() {
   isBlur = false;
   $answer.classList.remove("blur");
   $answer.classList.add("unblur");
+  const quest = questions[questNumber - 1];
 
   if (isNumberUncorrect(questNumber)) return;
 
-  if (questions[questNumber - 1]?.isJoke) {
+  if (quest?.isJoke) {
     jokeTimeout = setTimeout(() => {
-      $answer.innerHTML = "Это шутка :) Настоящий ответ вы можете узнать у молодожёнов";
-    }, 2500);
+    $answer.innerHTML = quest?.answerJoke;
+    }, 2200);
   }
 }
 
@@ -177,13 +187,15 @@ function update() {
     $answer.innerHTML = txt;
     removeBlur();
     toggleColor(1);
+    $prev.style.display = "none";
+    $next.style.display = "none";
     return;
   }
   else if (questNumber <= 1) {
     $prev.style.display = "none";
     $next.style.display = "block";
   }
-  else if (questNumber >= questions.length) {
+  else if (questNumber > questions.length) {
     $prev.style.display = "block";
     $next.style.display = "none";
   }
@@ -209,7 +221,7 @@ window.onload = function() {
 
   $next.addEventListener("click", next);
   $prev.addEventListener("click", prev);
-  $answer.addEventListener("click", removeBlur);
+  $answer.addEventListener("mousedown", removeBlur);
 
   update();
 }

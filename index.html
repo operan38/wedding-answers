@@ -8,18 +8,25 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-  <div class="quest-number" id="quest-number"></div>
-  <div class="readme" id="readme">
-    <p>Инструкция: </p>
-    <p>1. Нажмите на <span>"блёклый"</span> текст по середине экрана чтобы увидеть ответ.</p>
-    <p>2. <span>Используйте стрелки</span> внизу экрана для перемещения по списку ответов на вопросы.</p>
+  <div id="game">
+    <div class="quest-number" id="quest-number"></div>
+    <div class="readme" id="readme">
+      <p>Инструкция: </p>
+      <p>1. Нажмите на <span>"блёклый"</span> текст по середине экрана чтобы увидеть ответ.</p>
+      <p>2. <span>Используйте стрелки</span> внизу экрана для перемещения по списку ответов на вопросы.</p>
+    </div>
+    <div class="answer-section">
+      <span class="answer blur" id="answer"></span>
+    </div>
+    <div class="arrow-section">
+      <div class="arrow left" id="prev"></div>
+      <div class="arrow right" id="next"></div>
+    </div>
   </div>
-  <div class="answer-section">
-    <span class="answer blur" id="answer"></span>
-  </div>
-  <div class="arrow-section">
-    <div class="arrow left" id="prev"></div>
-    <div class="arrow right" id="next"></div>
+  <div id="end">
+    <div class="end-text">
+      Вы ответили на все вопросы. Так держать! Спасибо за игру!
+    </div>
   </div>
   <script type="text/javascript" src="answers.js"></script>
 </body>
