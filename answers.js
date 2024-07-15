@@ -70,7 +70,7 @@ const questions = [
   { answer: "Алексей", isJoke: false, color: ORANGE },
   { answer: "3 года", isJoke: false, color: ORANGE },
   { answer: "пока не разбудят коты", isJoke: false, color: ORANGE },
-  { answer: "шпрот", isJoke: false, color: ORANGE },
+  { answer: "кот-шпрот", isJoke: false, color: ORANGE },
   { answer: "3 подружки", isJoke: false, color: ORANGE },
 ];
 
